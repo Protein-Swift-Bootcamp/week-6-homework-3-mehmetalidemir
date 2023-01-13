@@ -4,10 +4,10 @@ This application provides a Pinterest-style layout for displaying images of Dota
 
  # Features
 
-Downloading and displaying heroes images from the OpenDota API
-A custom UICollectionViewLayout class for a Pinterest-style layout
-A PinterestLayoutDelegate protocol for automatically adjusting the sizes of the images in the cells
-Rounded corners for the cells and Pinterest-style aspect-fill for the images
+- Downloading and displaying heroes images from the OpenDota API
+- Custom UICollectionViewLayout class for a Pinterest-style layout
+- PinterestLayoutDelegate protocol for automatically adjusting the sizes of the images in the cells
+- Rounded corners for the cells and Pinterest-style aspect-fill for the images
 
 # Screenshots
 
