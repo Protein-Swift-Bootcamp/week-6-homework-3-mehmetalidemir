@@ -11,18 +11,19 @@ protocol PinterestLayoutDelegate: AnyObject {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat
 }
 
+// PinterestLayout is a custom UICollectionViewLayout subclass that provides a Pinterest-style layout for a collection view
 class PinterestLayout: UICollectionViewLayout {
-    // 1
+
     weak var delegate: PinterestLayoutDelegate?
 
-    // 2
+
     private let numberOfColumns = 2
     private let cellPadding: CGFloat = 6
 
-    // 3
+    // Array to cache the layout attributes
     private var cache: [UICollectionViewLayoutAttributes] = []
 
-    // 4
+    // Variables to track the content height and width
     private var contentHeight: CGFloat = 0
 
     private var contentWidth: CGFloat {
@@ -33,20 +34,20 @@ class PinterestLayout: UICollectionViewLayout {
         return collectionView.bounds.width - (insets.left + insets.right)
     }
 
-    // 5
+    // Overriding the collectionViewContentSize property to return the size of the entire collection view
     override var collectionViewContentSize: CGSize {
         return CGSize(width: contentWidth, height: contentHeight)
     }
-
+    // prepare() method is called when the layout is first created or when any changes are made to the layout
     override func prepare() {
-        // 1
+
         guard
         cache.isEmpty == true,
             let collectionView = collectionView
             else {
             return
         }
-        // 2
+        // Calculate the column width and create an array to track the x offset for each column
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
         var xOffset: [CGFloat] = []
         for column in 0..<numberOfColumns {
@@ -55,11 +56,11 @@ class PinterestLayout: UICollectionViewLayout {
         var column = 0
         var yOffset: [CGFloat] = .init(repeating: 0, count: numberOfColumns)
 
-        // 3
+        // Loop through all of the items in the collection view
         for item in 0..<collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
 
-            // 4
+            // Get the height of the photo from the delegate and calculate the frame for the cell
             let photoHeight = delegate?.collectionView(
                 collectionView,
                 heightForPhotoAtIndexPath: indexPath) ?? 180
@@ -70,23 +71,22 @@ class PinterestLayout: UICollectionViewLayout {
                 height: height)
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
 
-            // 5
+            // Create a UICollectionViewLayoutAttributes object and add it to the cache
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             attributes.frame = insetFrame
             cache.append(attributes)
 
-            // 6
+            // Update the content height and the y offset for the current column
             contentHeight = max(contentHeight, frame.maxY)
             yOffset[column] = yOffset[column] + height
 
             column = column < (numberOfColumns - 1) ? (column + 1) : 0
         }
     }
-
+    // layoutAttributesForElements(in:) method returns an array of UICollectionViewLayoutAttributes objects for the items that are currently visible on the screen
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var visibleLayoutAttributes: [UICollectionViewLayoutAttributes] = []
 
-        // Loop through the cache and look for items in the rect
         for attributes in cache {
             if attributes.frame.intersects(rect) {
                 visibleLayoutAttributes.append(attributes)
@@ -94,7 +94,7 @@ class PinterestLayout: UICollectionViewLayout {
         }
         return visibleLayoutAttributes
     }
-
+    // layoutAttributesForItem(at:) method returns the UICollectionViewLayoutAttributes object for the specified index path
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
     }
