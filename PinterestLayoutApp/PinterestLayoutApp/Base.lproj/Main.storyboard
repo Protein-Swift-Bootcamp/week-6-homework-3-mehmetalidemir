@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Title-->
+        <!--Heroes-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController id="Y6W-OH-hqX" customClass="ViewController" customModule="PinterestLayoutApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -80,7 +80,7 @@
                             <constraint firstItem="PIa-IH-8jN" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="oOD-TX-vOn"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="5mT-ci-Ujj"/>
+                    <navigationItem key="navigationItem" title="Heroes" id="5mT-ci-Ujj"/>
                     <connections>
                         <outlet property="collectionView" destination="xId-JV-kx4" id="P3t-MB-yTQ"/>
                     </connections>
