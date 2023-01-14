@@ -35,7 +35,6 @@ class ViewController: UIViewController {
             }
         }.resume()
 
-
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
         if let layout = collectionView.collectionViewLayout as? PinterestLayout {
